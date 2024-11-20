@@ -1,4 +1,6 @@
+// Connect to the server using Socket.IO
 const socket = io('https://victorious-leeward-search.glitch.me'); // Replace with your Glitch URL
+
 let currentUser = { name: '', age: '', gender: '', interest: '' };
 let stranger = { name: 'Stranger', age: 'N/A', gender: 'N/A', interest: 'N/A' };
 
@@ -9,33 +11,13 @@ function startChat() {
     currentUser.gender = document.getElementById('gender').value;
     currentUser.interest = document.getElementById('interest').value;
 
+    // Emit 'join' event to server with user details
+    socket.emit('join', currentUser);
+
     // Show message while waiting
     displaySystemMessage("Searching for a match...");
 
-    // Simulate the process of finding a stranger
-    setTimeout(() => {
-        // Randomly determine the stranger's interest and name
-        stranger.interest = getRandomInterest();
-        stranger.name = getRandomName();
-
-        // Notify the user that a stranger has joined based on interests
-        displaySystemMessage(`A stranger with your interest in ${stranger.interest} has joined!`);
-        
-        // Display message that the stranger has joined
-        displayMessage(`${stranger.name} has joined the chat.`, 'system');
-    }, 2000);
-}
-
-// Function to get a random interest
-function getRandomInterest() {
-    const interests = ['Music', 'Movies', 'Travel', 'Food', 'Technology', 'Sports'];
-    return interests[Math.floor(Math.random() * interests.length)];
-}
-
-// Function to get a random name for the stranger
-function getRandomName() {
-    const names = ['Alice', 'Bob', 'John', 'Jane', 'Mark', 'Lily'];
-    return names[Math.floor(Math.random() * names.length)];
+    // No need to simulate stranger joining here as the server should handle it
 }
 
 // Function to send a message
@@ -47,14 +29,12 @@ function sendMessage() {
         // Display the user's message
         displayMessage(`${currentUser.name}: ${message}`, 'user');
 
-        // Simulate the stranger replying after a short delay
-        setTimeout(() => {
-            displayMessage(`${stranger.name}: Hello, nice to meet you!`, 'stranger');
-        }, 1500);
-    }
+        // Emit the message to the server (to send to the matched user)
+        socket.emit('message', message);
 
-    // Clear the input field after sending
-    messageInput.value = '';
+        // Clear the input field after sending
+        messageInput.value = '';
+    }
 }
 
 // Function to display a message in the chat
@@ -79,5 +59,17 @@ function displaySystemMessage(message) {
     systemMessageElement.innerText = message;
 }
 
+// Listen for incoming messages from the server
+socket.on('message', (message) => {
+    displayMessage(`${stranger.name}: ${message}`, 'stranger');
+});
 
+// Listen for a 'match' event when the stranger is found
+socket.on('match', (matchedStranger) => {
+    // Update stranger details from the server
+    stranger = matchedStranger;
 
+    // Notify the user about the match
+    displaySystemMessage(`A stranger with your interest in ${stranger.interest} has joined!`);
+    displayMessage(`${stranger.name} has joined the chat.`, 'system');
+});
