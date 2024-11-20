@@ -1,3 +1,4 @@
+const socket = io('https://victorious-leeward-search.glitch.me'); // Replace with your Glitch URL
 let currentUser = { name: '', age: '', gender: '', interest: '' };
 let stranger = { name: 'Stranger', age: 'N/A', gender: 'N/A', interest: 'N/A' };
 
