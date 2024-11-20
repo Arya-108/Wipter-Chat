@@ -1,0 +1,238 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 16px;
+}
+
+/* Header Styling */
+header {
+    background-color: #24292f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+/* Terms & Conditions Menu */
+#terms {
+    display: none;
+    background-color: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 30px auto;
+    text-align: left;
+}
+
+#terms h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+#terms ul {
+    list-style-type: none;
+    margin: 15px 0;
+}
+
+#terms li {
+    margin-bottom: 10px;
+}
+
+/* Chat Container Styling */
+.chat-container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 300px;
+    background-color: #f0f0f5;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.sidebar input, .sidebar select, .sidebar button {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar input:focus, .sidebar select:focus, .sidebar button:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+.sidebar button {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat Window Styling */
+.chat-window {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-box {
+    height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.message-box:hover {
+    background-color: #f1f1f1;
+}
+
+.message {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 75%;
+    word-wrap: break-word;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.message.user {
+    background-color: #D1F7D5;
+    color: #333;
+    margin-left: auto;
+    border-radius: 15px 15px 0px 15px;
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+}
+
+.message.stranger {
+    background-color: #FFDDC1;
+    color: #333;
+    margin-right: auto;
+    border-radius: 15px 15px 15px 0px;
+    box-shadow: 0 4px 10px rgba(255, 99, 71, 0.2);
+}
+
+.message.system {
+    background-color: #f1f1f1;
+    color: #555;
+    font-weight: bold;
+    text-align: center;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    resize: none;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+#send-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+#send-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Smooth Transitions for Chat */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.message {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chat-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .chat-window {
+        width: 100%;
+    }
+}
+

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIPTER - Random Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .header .logo {
+            font-size: 20px;
+        }
+
+        .terms-btn {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modal-content li {
+            margin: 8px 0;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Styling for the form */
+        .form-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h3 {
+            margin-bottom: 20px;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .chat-container {
+            display: none;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with terms button -->
+    <div class="header">
+        <div class="logo">Welcome to WIPTER</div>
+        <button class="terms-btn" id="termsBtn">☰</button>
+    </div>
+
+    <!-- Modal for Terms and Conditions -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Terms and Conditions</h2>
+            <p>Welcome to WIPTER, a random text-based chat platform.</p>
+            <p>By using this site, you agree to the following terms:</p>
+            <ul>
+                <li>You must be at least 13 years old to use this service.</li>
+                <li>You are responsible for your actions while using the service.</li>
+                <li>Any inappropriate behavior will result in a ban.</li>
+                <li>We are not responsible for any loss or damage during chats.</li>
+                <li>Developer: Arya Roy</li>
+            </ul>
+            <button class="btn" id="acceptBtn">Accept</button>
+        </div>
+    </div>
+
+    <!-- User Form -->
+    <div class="form-container" id="userForm">
+        <h3>Enter Your Details</h3>
+        <form id="userDetailsForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label for="interest">Interested In:</label>
+            <select id="interest" required>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+            </select>
+
+            <button type="submit" class="btn">Start Chat</button>
+        </form>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <h3>Chatting with: <span id="chattingWith"></span></h3>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Type your message..." />
+        <button id="sendBtn" class="btn">Send</button>
+    </div>
+
+    <script>
+        // Handle Terms and Conditions Modal
+        var termsBtn = document.getElementById("termsBtn");
+        var termsModal = document.getElementById("termsModal");
+        var closeModal = document.getElementById("closeModal");
+        var acceptBtn = document.getElementById("acceptBtn");
+
+        termsBtn.onclick = function() {
+            termsModal.style.display = "flex";
+        }
+
+        closeModal.onclick = function() {
+            termsModal.style.display = "none";
+        }
+
+        acceptBtn.onclick = function() {
+            termsModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === termsModal) {
+                termsModal.style.display = "none";
+            }
+        }
+
+        // Handle User Details Form Submission
+        var userDetailsForm = document.getElementById("userDetailsForm");
+        var userForm = document.getElementById("userForm");
+        var chatContainer = document.getElementById("chatContainer");
+        var chattingWith = document.getElementById("chattingWith");
+        var chatMessages = document.getElementById("chatMessages");
+        var chatInput = document.getElementById("chatInput");
+
+        userDetailsForm.onsubmit = function(event) {
+            event.preventDefault();
+
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+            var gender = document.getElementById("gender").value;
+            var interest = document.getElementById("interest").value;
+
+            // Hide user form and show chat container
+            userForm.style.display = "none";
+            chatContainer.style.display = "block";
+
+            // Display who the user is chatting with
+            chattingWith.innerHTML = interest;
+
+            // Simulate a chat conversation (You would replace this with real backend logic)
+            chatMessages.innerHTML += `<p><strong>${name}:</strong> Hi, I'm ${name}. Let's chat!</p>`;
+
+            // Handle sending messages
+            document.getElementById("sendBtn").onclick = function() {
+                var message = chatInput.value;
+                if (message) {
+                    chatMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+                    chatInput.value = '';  // Clear the input field
+                }
+            };
+        };
+    </script>
+
+</body>
+</html>
+
